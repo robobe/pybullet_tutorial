@@ -1,0 +1,32 @@
+{
+    "name": "PyBullet",
+    "dockerComposeFile": "../docker-compose.yaml",
+    "service": "dev",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+    "features": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.flake8",
+                "ms-python.black-formatter",
+                "ms-toolsai.jupyter",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools",
+                "twxs.cmake"
+            ],
+            "settings": {
+                "python.linting.enabled": true,
+                "python.linting.flake8Enabled": true,
+                "python.formatting.provider": "black",
+                "files.watcherExclude": {
+                    "**/node_modules/**": true,
+                    "**/.git/objects/**": true,
+                    "**/.git/subtree-cache/**": true,
+                    "**/build/**": true
+                }
+            }
+        }
+    }
+}
