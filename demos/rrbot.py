@@ -10,9 +10,12 @@ p.setGravity(0, 0, -9.8)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 plane_id = p.loadURDF("plane.urdf")
 
-p.setAdditionalSearchPath("/workspace/demos/urdf")
+# Additional URDFs location
+p.setAdditionalSearchPath("/workspaces/pybullet_tutorial/demos/urdf")
+# fix base to world
 robot_id = p.loadURDF("rrbot.urdf", useFixedBase=True)
-# joint information
+
+# add slider for each joint
 joint_sliders = {}
 num_joints = p.getNumJoints(robot_id)
 for i in range(num_joints):
@@ -27,7 +30,7 @@ for i in range(num_joints):
 while p.isConnected():
     for j, slider_id in joint_sliders.items():
         target = p.readUserDebugParameter(slider_id)
-
+        # set joint position
         p.setJointMotorControl2(
             robot_id,
             j,
