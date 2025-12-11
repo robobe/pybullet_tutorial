@@ -51,8 +51,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 
-COPY requirements.txt /tmp/requirements.txt
-RUN pip install --break-system-packages --no-cache-dir -r /tmp/requirements.txt
 
 RUN apt-get update && apt-get install -y \
     mesa-utils \
@@ -63,3 +61,10 @@ RUN apt-get update && apt-get install -y \
     libx11-6 \
     libxext6 \
     && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y \
+    python3-tk \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --break-system-packages --no-cache-dir -r /tmp/requirements.txt
