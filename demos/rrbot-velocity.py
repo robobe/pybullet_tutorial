@@ -23,7 +23,7 @@ for i in range(num_joints):
     j_name = info[1].decode("utf-8")
     j_type = info[2]
 
-    slider_id = p.addUserDebugParameter(j_name, -3.14, 3.14, 0.0)
+    slider_id = p.addUserDebugParameter(j_name, -2, 2, 0.0)
     joint_sliders[i] = slider_id
 
 

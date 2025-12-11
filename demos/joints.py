@@ -7,16 +7,7 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())
 # Add gravity
 p.setGravity(0, 0, -9.8)
 plane_id = p.loadURDF("plane.urdf")
-# cube_id = p.loadURDF("urdf/self_balance.urdf", [0, 0, 1])
 robot = p.loadURDF("kuka_iiwa/model.urdf", useFixedBase=True)
-
-# Get how many joints this robot has
-num_joints = p.getNumJoints(robot)
-print("Number of joints:", num_joints)
-
-for i in range(num_joints):
-    info = p.getJointInfo(robot, i)
-    print(i, info[1].decode("utf-8"))
 
 joint_index = 2  # pick a joint index
 move = 0.001
@@ -30,6 +21,7 @@ for _ in range(1000):
     )
     move += 0.01
     pos, vel, reaction_forces, torque = p.getJointState(robot, 2)
-    print(f"Position={pos:.3f}, Velocity={vel:.3f}")
+    # print(f"Position={pos:.3f}, Velocity={vel:.3f}")
     p.stepSimulation()
     time.sleep(1/240.)
+p.disconnect()

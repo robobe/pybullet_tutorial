@@ -27,5 +27,5 @@
     "workbench.iconTheme": "vs-seti",
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
-    "extensions.ignoreRecommendations": false
+    "extensions.ignoreRecommendations": false,
 }

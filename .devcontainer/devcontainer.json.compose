@@ -1,28 +1,9 @@
 {
     "name": "PyBullet",
-    "dockerFile": "Dockerfile",
-    "context": "..",
-    "workspaceFolder": "/workspaces/pybullet_tutorial",
-    "remoteUser": "user",
-    "runArgs": [
-        "--net=host",
-        "--gpus=all",
-        "--hostname=dev",
-        "--runtime=nvidia"
-    ],
-    "remoteEnv": {
-        "DISPLAY": "${localEnv:DISPLAY}",
-        "QT_X11_NO_MITSHM": "1",
-        "NVIDIA_VISIBLE_DEVICES": "all",
-        "NVIDIA_DRIVER_CAPABILITIES": "graphics,compute,utility",
-        "__NV_PRIME_RENDER_OFFLOAD": "1",
-        "__GLX_VENDOR_LIBRARY_NAME": "nvidia",
-        "PIP_BREAK_SYSTEM_PACKAGES": "1"
-    },
-    "mounts": [
-        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
-        "source=/dev/dri,target=/dev/dri,type=bind"
-    ],
+    "dockerComposeFile": "../docker-compose.yaml",
+    "service": "dev",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
     "features": {},
     "customizations": {
         "vscode": {
@@ -36,7 +17,6 @@
                 "twxs.cmake"
             ],
             "settings": {
-                "python.defaultInterpreterPath": "/usr/local/bin/python",
                 "python.linting.enabled": true,
                 "python.linting.flake8Enabled": true,
                 "python.formatting.provider": "black",
