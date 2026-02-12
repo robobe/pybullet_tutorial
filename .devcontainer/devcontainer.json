@@ -28,18 +28,9 @@
         "vscode": {
             "extensions": [
                 "ms-python.python",
-                "ms-python.flake8",
-                "ms-python.black-formatter",
-                "ms-toolsai.jupyter",
-                "ms-vscode.cmake-tools",
-                "ms-vscode.cpptools",
-                "twxs.cmake"
+                "openai.chatgpt"
             ],
             "settings": {
-                "python.defaultInterpreterPath": "/usr/local/bin/python",
-                "python.linting.enabled": true,
-                "python.linting.flake8Enabled": true,
-                "python.formatting.provider": "black",
                 "files.watcherExclude": {
                     "**/node_modules/**": true,
                     "**/.git/objects/**": true,

@@ -1,4 +1,4 @@
-import pybullet as p
+import typeings.pybullet as p
 import pybullet_data
 
 physicsClient = p.connect(p.GUI)

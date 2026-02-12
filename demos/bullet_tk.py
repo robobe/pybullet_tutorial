@@ -1,7 +1,7 @@
 import tkinter as tk
 import threading
 import time
-import pybullet as p
+import typeings.pybullet as p
 import pybullet_data
 
 counter = 0

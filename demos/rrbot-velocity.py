@@ -1,4 +1,4 @@
-import pybullet as p
+import typeings.pybullet as p
 import time
 import pybullet_data
 

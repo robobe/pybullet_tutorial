@@ -1,4 +1,6 @@
 {
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.useLibraryCodeForTypes": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit"
@@ -14,18 +16,5 @@
         "**/__pycache__/**": true,
         "**/.pytest_cache/**": true,
         "**/*.pyc": true
-    },
-    "python.testing.pytestEnabled": true,
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestArgs": [
-        "."
-    ],
-    "jupyter.askForKernelRestart": false,
-    "jupyter.interactiveWindow.creationMode": "perFile",
-    "terminal.integrated.defaultProfile.linux": "bash",
-    "workbench.colorTheme": "Default Dark+",
-    "workbench.iconTheme": "vs-seti",
-    "git.enableSmartCommit": true,
-    "git.confirmSync": false,
-    "extensions.ignoreRecommendations": false,
+    }
 }
