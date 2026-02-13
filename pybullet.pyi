@@ -310,7 +310,7 @@ def addUserDebugLine(lineFromXYZ:list[float],lineToXYZ:list[float],lineColorRGB:
     """ Add a user debug draw line with lineFrom[3], lineTo[3], lineColorRGB[3], lineWidth, lifeTime. A lifeTime of 0 means permanent until removed. Returns a unique id for the user debug item. """
     pass
 
-def addUserDebugParameter(paramName:str,rangeMin:float,rangeMax:float,startValue:float,physicsClientId:int,*args, **kwargs): # real signature unknown
+def addUserDebugParameter(paramName:str,rangeMin:float,rangeMax:float,startValue:float,physicsClientId:int=...,*args, **kwargs): # real signature unknown
     """ Add a user debug parameter, such as a slider, that can be controlled using a GUI. """
     pass
 
@@ -881,7 +881,7 @@ def setJointMotorControl(this_is_obsolete_use_motorctrl_2,*args, **kwargs): # re
     """ This (obsolete) method cannot select non-zero physicsClientId, use setJointMotorControl2 instead.Set a single joint motor control mode and desired target value. There is no immediate state change, stepSimulation will process the motors. """
     pass
 
-def setJointMotorControl2(bodyIndex:int,jointIndex:int,controlMode:int,targetPosition:float,targetVelocity:float,force:float,positionGain:float,velocityGain:float,maxVelocity:float,physicsClientId:int=0,*args, **kwargs): # real signature unknown
+def setJointMotorControl2(bodyIndex:int,jointIndex:int,controlMode:int,targetPosition:float=...,targetVelocity:float=...,force:float=...,positionGain:float=...,velocityGain:float=...,maxVelocity:float=...,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Set a single joint motor control mode and desired target value. There is no immediate state change, stepSimulation will process the motors. """
     pass
 
