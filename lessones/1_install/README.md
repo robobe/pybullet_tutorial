@@ -26,5 +26,21 @@ pip install pybullet
 > ❌ **Error**
 > Something failed.
 
-> 🏋️ Exercise
+> 🏋️ **Exercise**
 > xxxxxx
+> yyyyy
+
+> [!NOTE]
+> This is a note.
+
+> [!TIP]
+> This is a tip.
+
+> [!IMPORTANT]
+> Important info.
+
+> [!WARNING]
+> Warning message.
+
+> [!CAUTION]
+> Dangerous action.
