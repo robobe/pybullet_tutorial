@@ -1,7 +1,0 @@
-pybullet
-gymnasium
-scipy
-numpy
-matplotlib
-opencv-python
-Pillow
