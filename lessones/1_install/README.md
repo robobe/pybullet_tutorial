@@ -17,21 +17,10 @@ pip install pybullet
 ```
 ```
 
-> ℹ️ **Info**
-> This is an informational message.
 
-> ⚠️ **Warning**
-> Something important here.
-
-> ❌ **Error**
-> Something failed.
-
-> 🏋️ **Exercise**
-> xxxxxx
-> yyyyy
-
-> [!NOTE]
-> This is a note.
+> [!NOTE] Exercise 1
+> Write **pybullet** hello world
+> Run the simulation and create empty simulation loop
 
 > [!TIP]
 > This is a tip.
