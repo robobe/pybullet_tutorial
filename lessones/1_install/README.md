@@ -18,7 +18,8 @@ pip install pybullet
 ```
 
 
-> [!NOTE] Exercise 1
+> [!NOTE] 
+> ### Exercise 1
 > Write **pybullet** hello world
 > Run the simulation and create empty simulation loop
 
