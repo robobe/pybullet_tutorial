@@ -49,3 +49,12 @@ Retrun joint position, velocity, joint reaction forces and joint motor torque.
 > [!NOTE]
 > ## Exercise 3_1
 > Move the link using `setJointMotorControl2` method and read the joint position using `getJointState`
+
+
+---
+
+## Position control
+
+```python
+--8<-- "code/rrbot-joint-position.py"
+```
