@@ -109,6 +109,8 @@ finally:
 
 ![alt text](images/joint_position_with_parameter.png)
 
+[solution](solution/2_set_position/rrbot-joint-position.py)
+
 ---
 
 ## Velocity control
@@ -243,4 +245,5 @@ finally:
 > use:
 > - addUserDebugParameter: control the desire variable (target, p, d, max torque)
 > - add PD controller
-> 
+
+[solution](solution/3_set_effort/rrbot-joint-effort.py)
