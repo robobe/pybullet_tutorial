@@ -15,6 +15,27 @@
 - getEulerFromQuaternion
 
 
+### getLinkState
+
+```python
+p.getLinkState(robot, linkIndex, computeLinkVelocity=1)
+```
+
+| Index | Meaning                          |
+| ----- | -------------------------------- |
+| 0     | COM world position               |
+| 1     | COM world orientation            |
+| 2     | Local inertial frame position    |
+| 3     | Local inertial frame orientation |
+| 4     | Link frame world position        |
+| 5     | Link frame world orientation     |
+| 6     | Linear velocity (world)          |
+| 7     | Angular velocity (world)         |
+
+
+> [!TIP]
+> COM -> Center Of Mass
+
 > [!NOTE]
 > ### Exercise 4_1
 > Get link position and orientation using `getLinkState`
