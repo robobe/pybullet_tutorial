@@ -22,6 +22,8 @@
         "titleBar.activeForeground": "#FFFFFF",
         "titleBar.inactiveBackground": "#2A2A2A",
         "titleBar.inactiveForeground": "#CCCCCC"
-    }
-
+    },
+    "cSpell.words": [
+        "Pybullet"
+    ]
 }
