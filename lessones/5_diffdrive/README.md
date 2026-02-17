@@ -56,11 +56,23 @@ $$\omega_L = \frac{1}{r}\left(v - \frac{b}{2}\omega\right)$$
 
 ---
 
+## Demo:
+Command the car forward and backward 2 meters
+
+[demo code](code/simple_drive.py)
+
+Turn 180 degree on car center
+
+[demo code](code/simple_turn.py)
+
+---
+
+
 > [!NOTE]
 > ### Exercises 5_1
 > Create diff robot simulation
 > use racer robot
-> try to move the robot in square, rotate 
+> try to move the robot in square,    
 > the racer car is not true diff drive , its ackermann steering like normal car
 > we keep the front wheel (steering) at position zero and give velocity command to left and right wheels
 
