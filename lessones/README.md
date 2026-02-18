@@ -21,12 +21,12 @@ It is widely used for:
 
 ## Lessons list
 
-- [Install](1_install/)
-- [Python basic tutorial](1a_python/)
-- [urdf](2_urdf/)
-- [joints control](3_joint_control/)
-- [coordinate system](4_coordinate_system/)
-- [differential drive](5_diffdrive/)
-- [camera](6_camera/)
-- [TBD project - self balancer with pid controller]()
-- [TBD Pybullet gymnasium environment]()
+1. [Install](1_install/)
+1. [Python basic tutorial](1a_python/)
+1. [urdf](2_urdf/)
+1. [joints control](3_joint_control/)
+1. [coordinate system](4_coordinate_system/)
+1. [differential drive](5_diffdrive/)
+1. [camera](6_camera/)
+1. [TBD project - self balancer with pid controller]()
+1. [TBD Pybullet gymnasium environment]()
