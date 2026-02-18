@@ -258,7 +258,7 @@ sudo apt install python3-tk
 ```
 
 ```bash
-pip install metplotlib
+pip install matplotlib
 ```
 
 [check simple gui](code/tk_inter_demo.py)

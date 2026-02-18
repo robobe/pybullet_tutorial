@@ -57,13 +57,24 @@ $$\omega_L = \frac{1}{r}\left(v - \frac{b}{2}\omega\right)$$
 ---
 
 ## Demo:
-Command the car forward and backward 2 meters
+Command the car forward and backward 2 meters open loop
 
 [demo code](code/simple_drive.py)
 
 Turn 180 degree on car center
 
 [demo code](code/simple_turn.py)
+
+
+Command the car using goto Pose 2D , and use PID controller, the error convert to TWIST message
+
+```python
+class Twist2D:
+    linear_x: float   # m/s
+    angular_z: float  # rad/s
+```
+
+[goto pose2d example](code/simple_drive_pid.py)
 
 ---
 
