@@ -812,7 +812,7 @@ def resetMeshData(*args, **kwargs): # real signature unknown
     """ Reset mesh data. Only implemented for deformable bodies. """
     pass
 
-def resetSimulation(flags:int,physicsClientId:int=0): # real signature unknown; restored from __doc__
+def resetSimulation(flags:int=...,physicsClientId:int=0): # real signature unknown; restored from __doc__
     """
     resetSimulation(physicsClientId=0)
     Reset the simulation: remove all objects and start from an empty world.

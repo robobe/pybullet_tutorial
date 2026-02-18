@@ -28,6 +28,11 @@ cubeStartOrientation = p.getQuaternionFromEuler([0,0,0])
 sudo cp pybullet.pyi /usr/local/lib/python3.12/dist-packages/
 ```
 
+```
+cp pybullet.pyi /home/user/projects/pybullet_tutorial/venv/lib/python3.12/site-packages/
+```
+
+
 | file | Description |
 | ---- | ----------  |
 | basic.py | simple simulation loop with safe exit |

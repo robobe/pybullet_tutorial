@@ -247,3 +247,39 @@ finally:
 > - add PD controller
 
 [solution](solution/3_set_effort/rrbot-joint-effort.py)
+
+---
+
+## Add more control
+
+```bash
+sudo apt update
+sudo apt install python3-tk
+```
+
+```bash
+pip install metplotlib
+```
+
+[check simple gui](code/tk_inter_demo.py)
+
+![alt text](images/tk_inter.png)
+
+---
+
+## Let's do some graph
+
+```bash
+pip install matplotlib
+```
+
+[matplotlib intro ()](https://youtu.be/2KY5AaFvWtE?list=PLZPZq0r_RZONpa_Xg1MmyjmctJjL4l3Ay)
+
+### Demo
+using the velocity control demo
+
+- input target step as error
+- plot the output position to graph
+- reset the simulation
+
+[demo plot the position graph over time](code/rrbot_joint_velocity_gui.py)
