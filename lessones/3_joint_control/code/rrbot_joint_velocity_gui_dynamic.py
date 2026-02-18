@@ -1,5 +1,6 @@
 import math
 import os
+import random
 import time
 import tkinter as tk
 from collections import deque
@@ -18,42 +19,10 @@ MAX_FORCE = 200.0
 KP = 4.0
 MAX_VELOCITY = 2.0
 UI_PERIOD_MS = 20
+DISTURB_LINK_INDEX = 0
 
 # 3 predefined target positions (rad)
 PRESET_TARGETS = [math.pi / 6.0, math.pi / 3.0, -math.pi / 4.0]
-
-
-class PIDController:
-    def __init__(self, kp: float, ki: float, kd: float) -> None:
-        self.kp = kp
-        self.ki = ki
-        self.kd = kd
-        self.integral = 0.0
-        self.prev_error: float | None = None
-
-    def set_gains(self, kp: float, ki: float, kd: float) -> None:
-        self.kp = kp
-        self.ki = ki
-        self.kd = kd
-
-    def reset(self) -> None:
-        self.integral = 0.0
-        self.prev_error = None
-
-    def compute(self, target: float, measurement: float, dt: float, output_limit: float) -> float:
-        error = target - measurement
-        derivative = 0.0 if self.prev_error is None else (error - self.prev_error) / dt
-
-        # Integrator with simple anti-windup clamp tied to output limit.
-        self.integral += error * dt
-        if self.ki > 1e-9:
-            i_limit = output_limit / self.ki
-            self.integral = max(-i_limit, min(i_limit, self.integral))
-
-        output = self.kp * error + self.ki * self.integral + self.kd * derivative
-        output = max(-output_limit, min(output_limit, output))
-        self.prev_error = error
-        return output
 
 
 class App:
@@ -70,23 +39,34 @@ class App:
 
         cwd = os.path.dirname(os.path.abspath(__file__))
         p.setAdditionalSearchPath(cwd)
-        self.robot = p.loadURDF("rrbot.urdf", basePosition=[0, 0, 0.5], useFixedBase=True)
+        self.robot = p.loadURDF("rrbot_2.urdf", basePosition=[0, 0, 0.5], useFixedBase=True)
 
         p.setTimeStep(TIME_STEP)
         p.setRealTimeSimulation(False)
 
         # Optional PyBullet sliders for controller tuning.
-        self.kp_param_id = p.addUserDebugParameter("Kp", 0.0, 20.0, KP, self.cid)
-        self.ki_param_id = p.addUserDebugParameter("Ki", 0.0, 20.0, 0.0, self.cid)
-        self.kd_param_id = p.addUserDebugParameter("Kd", 0.0, 20.0, 0.0, self.cid)
-        self.output_limit_param_id = p.addUserDebugParameter(
-            "output limit (rad/s)", 0.1, 10.0, MAX_VELOCITY, self.cid
+        self.kp_param_id = p.addUserDebugParameter("Kp", 0.0, 40.0, 12.0, self.cid)
+        self.max_vel_param_id = p.addUserDebugParameter(
+            "max velocity (rad/s)", 0.1, 20.0, 8.0, self.cid
         )
-        self.pid = PIDController(kp=KP, ki=0.0, kd=0.0)
+        self.noise_std_param_id = p.addUserDebugParameter(
+            "sensor noise std (rad)", 0.0, 0.2, 0.01, self.cid
+        )
+        self.delay_steps_param_id = p.addUserDebugParameter(
+            "cmd delay (steps)", 0, 60, 10, self.cid
+        )
+        self.dist_amp_param_id = p.addUserDebugParameter(
+            "disturb torque amp (Nm)", 0.0, 20.0, 6.0, self.cid
+        )
+        self.dist_freq_param_id = p.addUserDebugParameter(
+            "disturb freq (Hz)", 0.0, 8.0, 1.8, self.cid
+        )
 
         # ---- Control + plotting state ----
         self.target_pos = 0.0
         self.t0 = time.time()
+        self.sim_time = 0.0
+        self.cmd_queue: deque[float] = deque(maxlen=5000)
         self.max_points = 1200
         self.ts = deque(maxlen=self.max_points)
         self.joint_pos = deque(maxlen=self.max_points)
@@ -135,7 +115,8 @@ class App:
     def reset_system(self) -> None:
         self.target_pos = 0.0
         p.resetJointState(self.robot, JOINT_INDEX, targetValue=0.0, targetVelocity=0)
-        self.pid.reset()
+        self.sim_time = 0.0
+        self.cmd_queue.clear()
         self.t0 = time.time()
         self.ts.clear()
         self.joint_pos.clear()
@@ -144,18 +125,22 @@ class App:
 
     def control_step(self) -> None:
         kp = p.readUserDebugParameter(self.kp_param_id, self.cid)
-        ki = p.readUserDebugParameter(self.ki_param_id, self.cid)
-        kd = p.readUserDebugParameter(self.kd_param_id, self.cid)
-        output_limit = p.readUserDebugParameter(self.output_limit_param_id, self.cid)
-        self.pid.set_gains(kp=kp, ki=ki, kd=kd)
+        max_velocity = p.readUserDebugParameter(self.max_vel_param_id, self.cid)
+        noise_std = p.readUserDebugParameter(self.noise_std_param_id, self.cid)
+        delay_steps = int(p.readUserDebugParameter(self.delay_steps_param_id, self.cid))
+        disturb_amp = p.readUserDebugParameter(self.dist_amp_param_id, self.cid)
+        disturb_freq = p.readUserDebugParameter(self.dist_freq_param_id, self.cid)
 
         current_pos = p.getJointState(self.robot, JOINT_INDEX)[0]
-        target_velocity = self.pid.compute(
-            target=self.target_pos,
-            measurement=current_pos,
-            dt=TIME_STEP,
-            output_limit=output_limit,
-        )
+        measured_pos = current_pos + random.gauss(0.0, noise_std)
+        pos_error = self.target_pos - measured_pos
+        raw_velocity_cmd = kp * pos_error
+        self.cmd_queue.append(raw_velocity_cmd)
+        if len(self.cmd_queue) > delay_steps:
+            target_velocity = self.cmd_queue.popleft()
+        else:
+            target_velocity = 0.0
+        target_velocity = max(-max_velocity, min(max_velocity, target_velocity))
 
         p.setJointMotorControl2(
             bodyIndex=self.robot,
@@ -164,7 +149,17 @@ class App:
             targetVelocity=target_velocity,
             force=MAX_FORCE,
         )
+        if disturb_amp > 0.0 and disturb_freq > 0.0:
+            disturb_torque_y = disturb_amp * math.sin(2.0 * math.pi * disturb_freq * self.sim_time)
+            p.applyExternalTorque(
+                objectUniqueId=self.robot,
+                linkIndex=DISTURB_LINK_INDEX,
+                torqueObj=[0.0, disturb_torque_y, 0.0],
+                flags=p.WORLD_FRAME,
+            )
+
         p.stepSimulation()
+        self.sim_time += TIME_STEP
 
     def sample(self) -> None:
         t = time.time() - self.t0

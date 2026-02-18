@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<robot name="rrbot">
+
+  <!-- *************** Link 1 *************** -->
+  <link name="link1">
+    <inertial>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="0.334167"
+        ixy="0"
+        ixz="0"
+        iyy="0.334167"
+        iyz="0"
+        izz="0.00166667"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 2"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 2"/>
+      </geometry>
+      <material name="orange">
+        <color rgba="1 0.423529412 0.039215686 1"/>
+      </material>
+    </visual>
+  </link>
+
+
+
+  <!-- *************** Link 2 *************** -->
+  <link name="link2">
+    <inertial>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <mass value="2.5"/>
+      <inertia
+        ixx="0.21041675"
+        ixy="0"
+        ixz="0"
+        iyy="0.21041675"
+        iyz="0"
+        izz="0.004166675"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 1"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- *************** Revolute Joint *************** -->
+  <joint name="joint1" type="revolute">
+    <parent link="link1"/>
+    <child link="link2"/>
+    <origin xyz="0 0.1 1.5" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+
+    <limit
+      lower="-10000000000000000"
+      upper="10000000000000000"
+      effort="1000"
+      velocity="10"/>
+
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+
+</robot>

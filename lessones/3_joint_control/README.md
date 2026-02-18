@@ -283,3 +283,53 @@ using the velocity control demo
 - reset the simulation
 
 [demo plot the position graph over time](code/rrbot_joint_velocity_gui.py)
+
+---
+
+## implement PID controller
+
+```python
+class PIDController:
+    def __init__(self, kp: float, ki: float, kd: float) -> None:
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
+        self.integral = 0.0
+        self.prev_error: float | None = None
+
+    def set_gains(self, kp: float, ki: float, kd: float) -> None:
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
+
+    def reset(self) -> None:
+        self.integral = 0.0
+        self.prev_error = None
+
+    def compute(self, target: float, measurement: float, dt: float, output_limit: float) -> float:
+        error = target - measurement
+        derivative = 0.0 if self.prev_error is None else (error - self.prev_error) / dt
+
+        # Integrator with simple anti-windup clamp tied to output limit.
+        self.integral += error * dt
+        if self.ki > 1e-9:
+            i_limit = output_limit / self.ki
+            self.integral = max(-i_limit, min(i_limit, self.integral))
+
+        output = self.kp * error + self.ki * self.integral + self.kd * derivative
+        output = max(-output_limit, min(output_limit, output))
+        self.prev_error = error
+        return output
+```
+
+[full sample code](code/rrbot_joint_velocity_gui.py)
+
+> [!NOTE]
+> ### Exercise 3_4
+> Play with pid gains and check the system response time and output
+
+#### PI control
+![alt text](images/pi_controller.png)
+
+#### P control
+![alt text](images/p_controller.png)
