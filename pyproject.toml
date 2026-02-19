@@ -5,8 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "gymnasium>=1.2.3",
+    "gymnasium[classic-control]>=1.2.3",
     "matplotlib>=3.10.8",
     "opencv-python>=4.13.0.92",
     "pybullet>=3.2.7",
+    "stable-baselines3[extra]>=2.7.1",
 ]
