@@ -14,3 +14,16 @@
 ```python
 gymnasium.make("FrozenLake-v1")
 ```
+
+
+## Demo:
+Run []() first with `is_training=true`  and `render=False` then to test  
+run `is_training=false`  and `render=True`
+
+
+---
+
+> [!NOTE]
+> ### Exercise
+> Watch [ Q Learning From Scratch – Using Q Tables ](https://youtu.be/L-kQSpCJH4Q)
+> explain line 44 and the variables in lines 22-25

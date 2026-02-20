@@ -3,15 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 
+Q_TABLE_FILE = "frozen_lake.pkl"
+GRAP_FILE = "frozen_lake.png"
+MAP_SIZE = "4x4"
+
 def run(episodes, is_training=True, render=False):
 
-    env = gym.make('FrozenLake-v1', map_name="8x8", is_slippery=True, render_mode='human' if render else None)
+    env = gym.make('FrozenLake-v1', map_name=MAP_SIZE, is_slippery=False, render_mode='human' if render else None)
 
     if(is_training):
         q = np.zeros((env.observation_space.n, env.action_space.n)) # init a 64 x 4 array
     else:
-        f = open('frozen_lake8x8.pkl', 'rb')
+        f = open(Q_TABLE_FILE, 'rb')
         q = pickle.load(f)
+        print("loaded qtable from file")
         f.close()
 
     learning_rate_a = 0.9 # alpha or learning rate
@@ -56,14 +61,16 @@ def run(episodes, is_training=True, render=False):
     for t in range(episodes):
         sum_rewards[t] = np.sum(rewards_per_episode[max(0, t-100):(t+1)])
     plt.plot(sum_rewards)
-    plt.savefig('frozen_lake8x8.png')
+    plt.savefig(GRAP_FILE)
 
     if is_training:
-        f = open("frozen_lake8x8.pkl","wb")
+        f = open(Q_TABLE_FILE,"wb")
         pickle.dump(q, f)
+        print("save file")
         f.close()
 
 if __name__ == '__main__':
     # run(15000)
-
-    run(1000, is_training=True, render=True)
+    # run with slippery false
+    # run(1000, is_training=True, render=False)
+    run(10, is_training=False, render=True)

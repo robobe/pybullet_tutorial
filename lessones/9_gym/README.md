@@ -27,6 +27,7 @@ In reinforcement learning, the classic “agent-environment loop” pictured bel
 ### Lessens
 
 - [Q-learning](q_learning/)
+- [frozen lake](frozen_lake/)
 - [cart_pole](cart_pole/)
 - [warehouse]()
 - [self balancer]()
