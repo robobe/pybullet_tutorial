@@ -27,3 +27,10 @@ run `is_training=false`  and `render=True`
 > ### Exercise
 > Watch [ Q Learning From Scratch – Using Q Tables ](https://youtu.be/L-kQSpCJH4Q)
 > explain line 44 and the variables in lines 22-25
+
+
+---
+
+## DQN
+
+[Simply Explaining Deep Q-Learning/Deep Q-Network (DQN) ](https://www.youtube.com/watch?v=EUrWGTCGzlA&list=PL58zEckBH8fCAYJJ34ZAunw-k2XztW0vU)
