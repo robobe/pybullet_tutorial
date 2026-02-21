@@ -19,6 +19,16 @@ pip install gymnasium[classic-control]
 - **Reward**: At every step when the pole remains balanced, you get +1 reward.
 - **Termination**: If the angle of the pole is more than ±12° or the cart crosses the boundary of ±2.4 units, then the episode ends.
 
+---
+
+## PID
+
+[view code](code/cart_pid.py)
+
+---
+
+## Lets do RL 
+
 ### Random action
 ```python
 import gymnasium as gym

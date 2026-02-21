@@ -33,6 +33,17 @@ cp pybullet.pyi /home/user/projects/pybullet_tutorial/venv/lib/python3.12/site-p
 ```
 
 
-| file | Description |
-| ---- | ----------  |
-| basic.py | simple simulation loop with safe exit |
+---
+
+## FOR ME
+
+### LQR
+
+- Understand state-space
+- Understand quadratic cost
+- Understand why full-state feedback works
+
+Watch:
+
+- Brian Douglas LQR videos[YouTube](https://youtu.be/hpeKrMG-WP0)
+- Steve Brunton control lectures
