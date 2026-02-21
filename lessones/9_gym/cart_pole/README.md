@@ -51,7 +51,27 @@ env.close()
 
 [code](code/gym_cart.py)
 
+---
 
+### Q-learning
+Code and video base on [Johnny Code](https://www.youtube.com/@johnnycode)
+
+
+[q-learning](code/cartpole_q.py)
+
+- Run training mode
+
+```python
+run(is_training=True, render=False)
+```
+
+- Run 
+```python
+run(is_training=False, render=True)
+```
+
+!!! info ""
+    
 ---
 
 ## Reference

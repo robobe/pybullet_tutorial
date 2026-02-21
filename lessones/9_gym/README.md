@@ -28,9 +28,11 @@ In reinforcement learning, the classic “agent-environment loop” pictured bel
 
 - [Q-learning](q_learning/)
 - [frozen lake](frozen_lake/)
+- [cliff (ppo)](cliff/)
 - [cart_pole](cart_pole/)
 - [warehouse]()
 - [self balancer]()
+- [stable baseline](stable_baseline/)
 
 ---
 
@@ -38,3 +40,4 @@ In reinforcement learning, the classic “agent-environment loop” pictured bel
 - [Reinforcement Learning on Self-balancing Bot](https://youtu.be/bIlwKK_iKKw)
 - [How to create a custom environment for Reinforcement Learning (using Gymnasium API and PyBullet)](https://youtu.be/H2uUvhSKpWI)
 - [ Balancebot learns to roll around through Reinforcement Learning ](https://youtu.be/NpfKzm2LS7w)
+- [to check](https://www.youtube.com/playlist?list=PLbMO9c_jUD47r9QZKpLn5CY_Mt-NFY8cC)
