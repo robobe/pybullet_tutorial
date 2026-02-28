@@ -31,6 +31,8 @@ In reinforcement learning, the classic “agent-environment loop” pictured bel
 - [cliff (ppo)](cliff/)
 - [cart_pole](cart_pole/)
 - [warehouse]()
+- [custom environment](custom_environment/)
+- [bullet custom environment](bullet/)
 - [self balancer]()
 - [stable baseline](stable_baseline/)
 
