@@ -5,7 +5,9 @@ import pybullet as p
 import pybullet_data
 import time
 
-
+"""
+raw pybullet environment with a single box to push left/right on a plane. The box is small and light, so it can be pushed around easily, but it has some friction so it doesn't drift forever.
+"""
 class MinimalBulletEnv(gym.Env):
     metadata = {"render_modes": ["human", "none"]}
 
@@ -23,7 +25,7 @@ class MinimalBulletEnv(gym.Env):
         self.steps = 0
 
         self.client = None
-        self.body = None
+        self.box = None
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
@@ -43,7 +45,7 @@ class MinimalBulletEnv(gym.Env):
         half = 0.04
         col = p.createCollisionShape(p.GEOM_BOX, halfExtents=[half, half, half])
         vis = p.createVisualShape(p.GEOM_BOX, halfExtents=[half, half, half])
-        self.body = p.createMultiBody(
+        self.box = p.createMultiBody(
             baseMass=1.0,
             baseCollisionShapeIndex=col,
             baseVisualShapeIndex=vis,
@@ -51,7 +53,7 @@ class MinimalBulletEnv(gym.Env):
         )
 
         # friction so it doesn't drift forever, but not so high it sticks
-        p.changeDynamics(self.body, -1, lateralFriction=0.6, rollingFriction=0.0, spinningFriction=0.0)
+        p.changeDynamics(self.box, -1, lateralFriction=0.6, rollingFriction=0.0, spinningFriction=0.0)
 
         return self._get_state(), {}
 
@@ -62,7 +64,7 @@ class MinimalBulletEnv(gym.Env):
         # push left/right in world frame
         force = 60.0 if action == 1 else -60.0
         p.applyExternalForce(
-            self.body, -1,
+            self.box, -1,
             [force, 0, 0],
             [0, 0, 0],
             flags=p.WORLD_FRAME,
@@ -75,7 +77,7 @@ class MinimalBulletEnv(gym.Env):
             if self.render_mode == "human":
                 time.sleep(1/240)
 
-        x = p.getBasePositionAndOrientation(self.body)[0][0]
+        x = p.getBasePositionAndOrientation(self.box)[0][0]
         state = self._get_state()
 
         terminated = x > 1.0          # reached goal on +x
@@ -94,7 +96,7 @@ class MinimalBulletEnv(gym.Env):
             self.client = None
 
     def _get_state(self):
-        x = p.getBasePositionAndOrientation(self.body)[0][0]
+        x = p.getBasePositionAndOrientation(self.box)[0][0]
         x = float(np.clip(x, -1.0, 1.0))
         bins = np.linspace(-1.0, 1.0, self.grid_size)
         s = int(np.digitize(x, bins) - 1)

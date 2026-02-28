@@ -2,5 +2,6 @@
 
 
 ---
+check [minimal pybullet and gymnasium environment](code/simple_box.py)
+the env change box position randomly on X axis
 
-check [pybullet environment](code/minimal.py) for pybullet gymnasium environment 

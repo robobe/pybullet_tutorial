@@ -181,3 +181,5 @@ def close(self):
 > [!NOTE]
 > ### Exercise
 > Try to implement q_learning for the 1D line world
+>
+> [solution](code/minimal_q.py)
