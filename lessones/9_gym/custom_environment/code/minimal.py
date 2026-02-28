@@ -61,11 +61,15 @@ class LineWorldEnv(gym.Env):
     def close(self):
         pass
 
-env = LineWorldEnv(render_mode="human")
-state, _ = env.reset()
+if __name__ == "__main__":
+    """
+    create the environment and run a random policy for a few steps to see how it works
+    """
+    env = LineWorldEnv(render_mode="human")
+    state, _ = env.reset()
 
-for _ in range(10):
-    action = env.action_space.sample()
-    state, reward, terminated, truncated, _ = env.step(action)
-    if terminated or truncated:
-        break
+    for _ in range(10):
+        action = env.action_space.sample()
+        state, reward, terminated, truncated, _ = env.step(action)
+        if terminated or truncated:
+            break

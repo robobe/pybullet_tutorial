@@ -1,2 +1,0 @@
-# Gymnasium custom environment
-

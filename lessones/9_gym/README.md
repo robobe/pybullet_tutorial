@@ -30,7 +30,6 @@ In reinforcement learning, the classic “agent-environment loop” pictured bel
 - [frozen lake](frozen_lake/)
 - [cliff (ppo)](cliff/)
 - [cart_pole](cart_pole/)
-- [warehouse]()
 - [custom environment](custom_environment/)
 - [bullet custom environment](bullet/)
 - [self balancer]()
