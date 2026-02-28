@@ -1,6 +1,18 @@
 import gymnasium as gym
 from gymnasium import spaces
 
+from typing import TypeAlias
+
+ObsType: TypeAlias = int
+ActionType: TypeAlias = int
+
+ResetReturn: TypeAlias = tuple[ObsType, dict]
+StepReturn: TypeAlias = tuple[ObsType, float, bool, bool, dict]
+
+MOVE_LEFT: ActionType = 0
+MOVE_RIGHT: ActionType = 1
+GOAL_REWARD: float = 1.0
+STEP_PENALTY: float = -0.01
 
 class LineWorldEnv(gym.Env):
     metadata = {"render_modes": ["human", "ansi"]}
@@ -18,7 +30,7 @@ class LineWorldEnv(gym.Env):
         self.steps = 0
         self.render_mode = render_mode
 
-    def reset(self, *, seed=None, options=None):
+    def reset(self, *, seed=None, options=None) -> ResetReturn:
         super().reset(seed=seed)
         self.state = 0
         self.steps = 0
@@ -28,18 +40,21 @@ class LineWorldEnv(gym.Env):
 
         return self.state, {}
 
-    def step(self, action):
+    def step(self, action) -> StepReturn:
         self.steps += 1
 
-        if action == 0:
+        if action == MOVE_LEFT:
             self.state = max(0, self.state - 1)
-        elif action == 1:
+        elif action == MOVE_RIGHT:
             self.state = min(self.size - 1, self.state + 1)
 
+        # Check if the episode is terminated (reached the goal) 
         terminated = self.state == self.size - 1
+        # or truncated (max steps reached)
         truncated = self.steps >= self.max_steps
 
-        reward = 1.0 if terminated else -0.01
+        # calculate reward
+        reward = GOAL_REWARD if terminated else STEP_PENALTY
 
         if self.render_mode == "human":
             self.render()
