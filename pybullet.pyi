@@ -306,7 +306,7 @@ def addUserData(bodyUniqueId:int, key, value, linkIndex=-1, visualShapeIndex=-1,
     """
     pass
 
-def addUserDebugLine(lineFromXYZ:list[float],lineToXYZ:list[float],lineColorRGB:list[float],lineWidth:float,lifeTime:float,parentObjectUniqueId:int,parentLinkIndex:int,replaceItemUniqueId:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def addUserDebugLine(lineFromXYZ:list[float],lineToXYZ:list[float],lineColorRGB:list[float],lineWidth:float,lifeTime:float,parentObjectUniqueId:int,parentLinkIndex:int,replaceItemUniqueId:int,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Add a user debug draw line with lineFrom[3], lineTo[3], lineColorRGB[3], lineWidth, lifeTime. A lifeTime of 0 means permanent until removed. Returns a unique id for the user debug item. """
     pass
 
@@ -318,23 +318,23 @@ def addUserDebugText(text:str,textPosition:list[float],textColorRGB:list[float]=
     """ Add a user debug draw line with text, textPosition[3], textSize and lifeTime in seconds A lifeTime of 0 means permanent until removed. Returns a unique id for the user debug item. """
     pass
 
-def applyExternalForce(objectUniqueId:int,linkIndex:int,forceObj:list[float],posObj:list[float],flags:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def applyExternalForce(objectUniqueId:int,linkIndex:int,forceObj:list[float],posObj:list[float],flags:int,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ for objectUniqueId, linkIndex (-1 for base/root link), apply a force [x,y,z] at the a position [x,y,z], flag to select FORCE_IN_LINK_FRAME or WORLD_FRAME coordinates """
     pass
 
-def applyExternalTorque(objectUniqueId:int,linkIndex:int,forceObj:list[float],posObj:list[float],flags:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def applyExternalTorque(objectUniqueId:int,linkIndex:int,forceObj:list[float],posObj:list[float],flags:int,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ for objectUniqueId, linkIndex (-1 for base/root link), apply a force [x,y,z] at the a position [x,y,z], flag to select FORCE_IN_LINK_FRAME or WORLD_FRAME coordinates """
     pass
 
-def calculateInverseDynamics(bodyUniqueId:int,objPositions:list[float],objVelocities:list[float],objAccelerations:list[float],physicsClientId:int,*args, **kwargs): # real signature unknown
+def calculateInverseDynamics(bodyUniqueId:int,objPositions:list[float],objVelocities:list[float],objAccelerations:list[float],physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Given an object id, joint positions, joint velocities and joint accelerations, compute the joint forces using Inverse Dynamics """
     pass
 
-def calculateInverseKinematics(bodyUniqueId:int,endEffectorLinkIndex:int,targetPosition:list[float],targetOrientation:list[float],lowerLimits:list[float],upperLimits:list[float],jointRanges:list[float],restPoses:list[float],jointDamping:list[float],solver:int,currentPosition:list[float],maxNumIterations:int,residualThreshold:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def calculateInverseKinematics(bodyUniqueId:int,endEffectorLinkIndex:int,targetPosition:list[float],targetOrientation:list[float],lowerLimits:list[float],upperLimits:list[float],jointRanges:list[float],restPoses:list[float],jointDamping:list[float],solver:int,currentPosition:list[float],maxNumIterations:int,residualThreshold:int,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Inverse Kinematics bindings: Given an object id, current joint positions and target position for the end effector,compute the inverse kinematics and return the new joint state """
     pass
 
-def calculateInverseKinematics2(bodyUniqueId:int,endEffectorLinkIndices:list[int],targetPositions:list[float],targetOrientation:list[float],lowerLimits:list[float],upperLimits:list[float],jointRanges:list[float],restPoses:list[float],jointDamping:list[float],solver:int,currentPosition:list[float],maxNumIterations:int,residualThreshold:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def calculateInverseKinematics2(bodyUniqueId:int,endEffectorLinkIndices:list[int],targetPositions:list[float],targetOrientation:list[float],lowerLimits:list[float],upperLimits:list[float],jointRanges:list[float],restPoses:list[float],jointDamping:list[float],solver:int,currentPosition:list[float],maxNumIterations:int,residualThreshold:int,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Inverse Kinematics bindings: Given an object id, current joint positions and target positions for the end effectors,compute the inverse kinematics and return the new joint state """
     pass
 
@@ -371,11 +371,11 @@ def calculateVelocityQuaternion(*args, **kwargs): # real signature unknown
     """ Compute the angular velocity given start and end quaternion and delta time. """
     pass
 
-def changeConstraint(parentBodyUniqueId:int,parentLinkIndex:int,childBodyUniqueId:int,childLinkIndex:int,jointType:int,jointAxis:list[float],parentFramePosition:list[float],childFramePosition:list[float],parentFrameOrientation:list[float],childFrameOrientation:list[float],physicsClientId:int,*args, **kwargs): # real signature unknown
+def changeConstraint(parentBodyUniqueId:int,parentLinkIndex:int,childBodyUniqueId:int,childLinkIndex:int,jointType:int,jointAxis:list[float],parentFramePosition:list[float],childFramePosition:list[float],parentFrameOrientation:list[float],childFrameOrientation:list[float],physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Change some parameters of an existing constraint, such as the child pivot or child frame orientation, using its unique id. """
     pass
 
-def changeDynamics(bodyUniqueId:int,linkIndex:int,mass:float,lateralFriction:float,spinningFriction:float,rollingFriction:float,restitution:float,linearDamping:float,angularDamping:float,contactStiffness:float,contactDamping:float,frictionAnchor:int,localInertiaDiagnoal:list,ccdSweptSphereRadius:float,contactProcessingThreshold:float,activationState:int,jointDamping:float,anisotropicFriction:float,maxJointVelocity:float,collisionMargin:float,jointLowerLimit:float,jointUpperLimit:float,jointLimitForce:float,physicsClientId:int,*args, **kwargs): # real signature unknown
+def changeDynamics(bodyUniqueId:int,linkIndex:int=...,mass:float=...,lateralFriction:float=...,spinningFriction:float=...,rollingFriction:float=...,restitution:float=...,linearDamping:float=...,angularDamping:float=...,contactStiffness:float=...,contactDamping:float=...,frictionAnchor:int=...,localInertiaDiagnoal:list=...,ccdSweptSphereRadius:float=...,contactProcessingThreshold:float=...,activationState:int=...,jointDamping:float=...,anisotropicFriction:float=...,maxJointVelocity:float=...,collisionMargin:float=...,jointLowerLimit:float=...,jointUpperLimit:float=...,jointLimitForce:float=...,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ change dynamics information such as mass, lateral friction coefficient. """
     pass
 
@@ -383,7 +383,7 @@ def changeTexture(*args, **kwargs): # real signature unknown
     """ Change a texture file. """
     pass
 
-def changeVisualShape(objectUniqueId:int,linkIndex:int,shapeIndex:int,textureUniqueId:int,rgbaColor:list[float],specularColor:list[float],physicsClientId:int,*args, **kwargs): # real signature unknown
+def changeVisualShape(objectUniqueId:int,linkIndex:int,shapeIndex:int,textureUniqueId:int,rgbaColor:list[float],specularColor:list[float],physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Change part of the visual shape information for one object. """
     pass
 
@@ -391,11 +391,11 @@ def computeDofCount(*args, **kwargs): # real signature unknown
     """ computeDofCount returns the number of degrees of freedom, including 7 degrees of freedom for the base in case of floating base """
     pass
 
-def computeProjectionMatrix(left:float,right:float,bottom:float,up:float,near:float,far:float,physicsClientId:int,*args, **kwargs): # real signature unknown
+def computeProjectionMatrix(left:float,right:float,bottom:float,up:float,near:float,far:float,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Compute a camera projection matrix from screen left/right/bottom/top/near/far values """
     pass
 
-def computeProjectionMatrixFOV(fov:float,aspect:float,nearVal:float,farVal:float,physicsClientId:int,*args, **kwargs): # real signature unknown
+def computeProjectionMatrixFOV(fov:float,aspect:float,nearVal:float,farVal:float,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Compute a camera projection matrix from fov, aspect ratio, near, far values """
     pass
 
@@ -420,7 +420,7 @@ def connect(method, key=None, options=''): # real signature unknown; restored fr
     """
     pass
 
-def createCollisionShape(shapeType:int,radius:float,halfExtents:list[float],height:float,fileName:list[float],meshScale:list[float],planeNormal:list[float],flags:int,collisionFramePosition:list[float],collisionFrameOrientationosition:list[float],vertices:list[float],indices:list[int],heightfieldTextureScaling:float,numHeightfieldRows:int,numHeightfieldColumns:int,replaceHeightfieldIndex:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def createCollisionShape(shapeType:int,radius:float,halfExtents:list[float]=...,height:float=...,fileName:list[float]=...,meshScale:list[float]=...,planeNormal:list[float]=...,flags:int=...,collisionFramePosition:list[float]=...,collisionFrameOrientationosition:list[float]=...,vertices:list[float]=...,indices:list[int]=...,heightfieldTextureScaling:float=...,numHeightfieldRows:int=...,numHeightfieldColumns:int=...,replaceHeightfieldIndex:int=...,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Create a collision shape. Returns a non-negative (int) unique id, if successfull, negative otherwise. """
     pass
 
@@ -428,11 +428,11 @@ def createCollisionShapeArray(*args, **kwargs): # real signature unknown
     """ Create collision shapes. Returns a non-negative (int) unique id, if successfull, negative otherwise. """
     pass
 
-def createConstraint(parentBodyUniqueId:int,parentLinkIndex:int,childBodyUniqueId:int,childLinkIndex:int,jointType:int,jointAxis:list[float],parentFramePosition:list[float],childFramePosition:list[float],parentFrameOrientation:list[float],childFrameOrientation:list[float],physicsClientId:int,*args, **kwargs): # real signature unknown
+def createConstraint(parentBodyUniqueId:int,parentLinkIndex:int,childBodyUniqueId:int,childLinkIndex:int,jointType:int,jointAxis:list[float],parentFramePosition:list[float],childFramePosition:list[float],parentFrameOrientation:list[float],childFrameOrientation:list[float],physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Create a constraint between two bodies. Returns a (int) unique id, if successfull. """
     pass
 
-def createMultiBody(baseMass:float,baseCollisionShapeIndex:int,baseVisualShapeIndex:int,basePosition:list[float],baseOrientation:list[float],baseInertialFramePosition:list[float],baseInertialFrameOrientation:list[float],linkMasses:list[float],linkCollisionShapeIndices:list[int],linkVisualShapeIndices:list[int],linkPositions:list[float],linkOrientations:list[float],linkInertialFramePositions:list[float],linkInertialFrameOrientations:list[float],linkParentIndices:list[int],linkJointTypes:list[int],linkJointAxis:list[float],useMaximalCoordinates:int,flags:int,batchPositions:list[float],physicsClientId:int=0,*args, **kwargs) -> int : # real signature unknown
+def createMultiBody(baseMass:float,baseCollisionShapeIndex:int,baseVisualShapeIndex:int,basePosition:list[float],baseOrientation:list[float],baseInertialFramePosition:list[float]=...,baseInertialFrameOrientation:list[float]=...,linkMasses:list[float],linkCollisionShapeIndices:list[int],linkVisualShapeIndices:list[int],linkPositions:list[list[int]],linkOrientations:list[float],linkInertialFramePositions:list[float],linkInertialFrameOrientations:list[float],linkParentIndices:list[int],linkJointTypes:list[int],linkJointAxis:list[float],useMaximalCoordinates:int=...,flags:int=...,batchPositions:list[float]=...,physicsClientId:int=0,*args, **kwargs) -> int : # real signature unknown
     """ Create a multi body. Returns a non-negative (int) unique id, if successfull, negative otherwise. """
     pass
 
@@ -440,7 +440,7 @@ def createSoftBodyAnchor(*args, **kwargs): # real signature unknown
     """ Create an anchor (attachment) between a soft body and a rigid or multi body. """
     pass
 
-def createVisualShape(shapeType:int,radius:float,halfExtents:list[float],height:float,fileName:list[float],meshScale:list[float],planeNormal:list[float],flags:int,visualFramePosition:list[float],visualFrameOrientationosition:list[float],vertices:list[float],indices:list[int],heightfieldTextureScaling:float,numHeightfieldRows:int,numHeightfieldColumns:int,replaceHeightfieldIndex:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def createVisualShape(shapeType:int,radius:float,halfExtents:list[float]=...,height:float=...,fileName:list[float]=...,meshScale:list[float]=...,planeNormal:list[float]=...,flags:int=...,visualFramePosition:list[float]=...,visualFrameOrientationosition:list[float]=...,vertices:list[float]=...,indices:list[int]=...,heightfieldTextureScaling:float=...,numHeightfieldRows:int=...,numHeightfieldColumns:int=...,replaceHeightfieldIndex:int=...,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Create a visual shape. Returns a non-negative (int) unique id, if successfull, negative otherwise. """
     pass
 
@@ -455,7 +455,7 @@ def disconnect(physicsClientId=0): # real signature unknown; restored from __doc
     """
     pass
 
-def enableJointForceTorqueSensor(bodyUniqueId:int,jointIndex:int,enableSensor:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def enableJointForceTorqueSensor(bodyUniqueId:int,jointIndex:int,enableSensor:int,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Enable or disable a joint force/torque sensor measuring the joint reaction forces. """
     pass
 
@@ -479,11 +479,11 @@ def getAxisDifferenceQuaternion(*args, **kwargs): # real signature unknown
     """ Compute the velocity axis difference from two quaternions. """
     pass
 
-def getBasePositionAndOrientation(objectUniqueId:int,physicsClientId:int,*args, **kwargs) -> list[float]: # real signature unknown
+def getBasePositionAndOrientation(objectUniqueId:int,physicsClientId:int=0,*args, **kwargs) -> list[float]: # real signature unknown
     """ Get the world position and orientation of the base of the object. (x,y,z) position vector and (x,y,z,w) quaternion orientation. """
     pass
 
-def getBaseVelocity(objectUniqueId:int,physicsClientId:int,*args, **kwargs) -> list[float]: # real signature unknown
+def getBaseVelocity(objectUniqueId:int,physicsClientId:int=0,*args, **kwargs) -> list[float]: # real signature unknown
     """ Get the linear and angular velocity of the base of the object  in world space coordinates. (x,y,z) linear velocity vector and (x,y,z) angular velocity vector. """
     pass
 
@@ -503,7 +503,7 @@ def getClosestPoints(bodyA:int,bodyB:int,distance:float,linkIndexA:int,linkIndex
     """ Compute the closest points between two objects, if the distance is below a given threshold.Input is two objects unique ids and distance threshold. """
     pass
 
-def getCollisionShapeData(objectUniqueId:int,linkIndex:int,physicsClientId:int,*args, **kwargs): # real signature unknown
+def getCollisionShapeData(objectUniqueId:int,linkIndex:int,physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Return the collision shape information for one object. """
     pass
 
@@ -778,7 +778,7 @@ def resetBasePositionAndOrientation(bodyUniqueId:int,posObj:list[float],ornObj:l
     """ Reset the world position and orientation of the base of the object instantaneously, not through physics simulation. (x,y,z) position vector and (x,y,z,w) quaternion orientation. """
     pass
 
-def resetBaseVelocity(objectUniqueId:int,linearVelocity:list[float],angularVelocity:list[float],physicsClientId:int,*args, **kwargs): # real signature unknown
+def resetBaseVelocity(objectUniqueId:int,linearVelocity:list[float],angularVelocity:list[float],physicsClientId:int=0,*args, **kwargs): # real signature unknown
     """ Reset the linear and/or angular velocity of the base of the object  in world space coordinates. linearVelocity (x,y,z) and angularVelocity (x,y,z). """
     pass
 
