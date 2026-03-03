@@ -432,7 +432,7 @@ def createConstraint(parentBodyUniqueId:int,parentLinkIndex:int,childBodyUniqueI
     """ Create a constraint between two bodies. Returns a (int) unique id, if successfull. """
     pass
 
-def createMultiBody(baseMass:float,baseCollisionShapeIndex:int,baseVisualShapeIndex:int,basePosition:list[float],baseOrientation:list[float],baseInertialFramePosition:list[float]=...,baseInertialFrameOrientation:list[float]=...,linkMasses:list[float],linkCollisionShapeIndices:list[int],linkVisualShapeIndices:list[int],linkPositions:list[list[int]],linkOrientations:list[float],linkInertialFramePositions:list[float],linkInertialFrameOrientations:list[float],linkParentIndices:list[int],linkJointTypes:list[int],linkJointAxis:list[float],useMaximalCoordinates:int=...,flags:int=...,batchPositions:list[float]=...,physicsClientId:int=0,*args, **kwargs) -> int : # real signature unknown
+def createMultiBody(baseMass:float,baseCollisionShapeIndex:int,baseVisualShapeIndex:int,basePosition:list[float],baseOrientation:list[float],baseInertialFramePosition:list[float]=...,baseInertialFrameOrientation:list[float]=...,linkMasses:list[float],linkCollisionShapeIndices:list[int],linkVisualShapeIndices:list[int],linkPositions:list[list[int]],linkOrientations:list[list[int]],linkInertialFramePositions:list[list[int]],linkInertialFrameOrientations:list[list[int]],linkParentIndices:list[int],linkJointTypes:list[int],linkJointAxis:list[list[int]],useMaximalCoordinates:int=...,flags:int=...,batchPositions:list[float]=...,physicsClientId:int=0,*args, **kwargs) -> int : # real signature unknown
     """ Create a multi body. Returns a non-negative (int) unique id, if successfull, negative otherwise. """
     pass
 
@@ -787,7 +787,7 @@ def resetDebugVisualizerCamera(cameraDistance:float,cameraYaw:float,cameraPitch:
     Example: pybullet.resetDebugVisualizerCamera( cameraDistance=3, cameraYaw=30,cameraPitch=52, cameraTargetPosition=[0,0,0])"""
     pass
 
-def resetJointState(objectUniqueId:int, jointIndex:int, targetValue:float, targetVelocity:int=0, physicsClientId:int=0): # real signature unknown; restored from __doc__
+def resetJointState(objectUniqueId:int, jointIndex:int, targetValue:float, targetVelocity:float=0.0, physicsClientId:int=0): # real signature unknown; restored from __doc__
     """
     resetJointState(objectUniqueId, jointIndex, targetValue, targetVelocity=0, physicsClientId=0)
     Reset the state (position, velocity etc) for a joint on a body instantaneously, not through physics simulation.

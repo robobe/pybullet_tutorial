@@ -28,7 +28,7 @@ cubeStartOrientation = p.getQuaternionFromEuler([0,0,0])
 sudo cp pybullet.pyi /usr/local/lib/python3.12/dist-packages/
 ```
 
-```
+```bash title="copy pyi into venv"
 cp pybullet.pyi /home/user/projects/pybullet_tutorial/venv/lib/python3.12/site-packages/
 ```
 

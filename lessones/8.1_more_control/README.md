@@ -10,6 +10,8 @@ This is the most important simple control system.
     
 $$m ẍ + c ẋ + kx = F$$
 
+[simulate using pybullet](code/mass-spring.py)
+
 #### state space
 ```
 x1 = position
@@ -25,6 +27,9 @@ x2_dot = (-k/m)x1 - (c/m)x2 + (1/m)F
 - Use LQR
 - Use RL
 
+##### pid
+
+[pid control](code/mass-spring-pid.py)
 ---
 
 ## math

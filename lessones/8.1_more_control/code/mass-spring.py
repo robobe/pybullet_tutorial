@@ -2,7 +2,11 @@ import time
 import pybullet as p
 import pybullet_data
 
-
+"""
+This example demonstrates how to implement a simple mass-spring-damper system using PyBullet's physics engine.
+A single mass is attached to a fixed point via a spring and damper. The spring force
+is calculated based on Hooke's law, and the damping force is proportional to the velocity of the mass.
+"""
 def main():
     # --- parameters (tune these) ---
     k = 50.0       # spring stiffness (N/m)
