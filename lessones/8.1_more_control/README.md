@@ -32,6 +32,11 @@ x2_dot = (-k/m)x1 - (c/m)x2 + (1/m)F
 [pid control](code/mass-spring-pid.py)
 ---
 
+## cart pole
+
+[cart pole PID control](code/cartpole.py)
+
+---
 ## math
 
 - [Understanding Calculus (for engineers)](https://youtu.be/C9oWXIs2g3Y)
