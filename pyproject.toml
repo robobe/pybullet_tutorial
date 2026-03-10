@@ -9,5 +9,6 @@ dependencies = [
     "matplotlib>=3.10.8",
     "opencv-python>=4.13.0.92",
     "pybullet>=3.2.7",
+    "scipy>=1.17.1",
     "stable-baselines3[extra]>=2.7.1",
 ]

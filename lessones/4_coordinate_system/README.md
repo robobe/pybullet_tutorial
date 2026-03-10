@@ -43,6 +43,12 @@ The robot coordinate system is the local reference frame attached to the robot i
 
 ---
 
+### Rotation matrix
+
+[ Understanding the Rotation Matrix ](https://youtu.be/8GrdqAizcfU)
+
+---
+
 ### PyBullet method to use
 - getLinkState
 - getBasePositionAndOrientation
