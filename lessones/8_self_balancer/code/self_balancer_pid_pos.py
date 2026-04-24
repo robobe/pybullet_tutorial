@@ -5,10 +5,12 @@
 # importing libraries
 import os
 import sys
+import json
 import pidcontrol as pid
 import numpy as np
 import pybullet as p
 import math
+import socket
 import time
 import pybullet_data
 
@@ -16,6 +18,13 @@ PITCH_SETPOINT = 0
 KP = 16
 KI = 0.08
 KD = 100
+POSITION_SETPOINT = 0
+POSITION_KP = 0.2
+POSITION_KI = 0
+POSITION_KD = 0.8
+MAX_PITCH_SETPOINT = 0.25
+PLOTJUGGLER_HOST = "127.0.0.1"
+PLOTJUGGLER_PORT = 9870
 
 POSITION_INDEX = 0
 ORIENTATION_INDEX = 1
@@ -23,6 +32,35 @@ ORIENTATION_INDEX = 1
 ROLL_INDEX = 0
 PITCH_INDEX = 1
 YAW_INDEX = 2
+
+
+class PlotJugglerUdpClient:
+    """
+    Send telemetry as JSON over UDP for PlotJuggler's UDP server.
+    """
+
+    def __init__(self, host=PLOTJUGGLER_HOST, port=PLOTJUGGLER_PORT):
+        self.address = (host, port)
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    def send(
+        self,
+        timestamp,
+        position_setpoint,
+        position_feedback,
+        pitch_setpoint,
+        pitch_feedback,
+    ):
+        data = {
+            "time": timestamp,
+            "position/setpoint": position_setpoint,
+            "position/feedback": position_feedback,
+            "pitch/setpoint": pitch_setpoint,
+            "pitch/feedback": pitch_feedback,
+            "pitch/setpoint_deg": pitch_setpoint * 180 / math.pi,
+            "pitch/feedback_deg": pitch_feedback * 180 / math.pi,
+        }
+        self.socket.sendto(json.dumps(data).encode("utf-8"), self.address)
 
 
 class SelfBalanceController:
@@ -43,7 +81,15 @@ class SelfBalanceController:
     vel=balance.callback(data)
     """
 
-    def __init__(self, Kp=KP, Ki=KI, Kd=KD):
+    def __init__(
+        self,
+        Kp=KP,
+        Ki=KI,
+        Kd=KD,
+        position_Kp=POSITION_KP,
+        position_Ki=POSITION_KI,
+        position_Kd=POSITION_KD,
+    ):
         self.xvelMin = -0.01
         self.xvelMax = 0
         self.yMin = -0.01
@@ -55,6 +101,12 @@ class SelfBalanceController:
         self.Ki = Ki  # 0.005
         self.Kd = Kd  # 1
         self.controller = pid.PID_Controller(self.Kp, self.Ki, self.Kd)
+        self.position_Kp = position_Kp
+        self.position_Ki = position_Ki
+        self.position_Kd = position_Kd
+        self.position_controller = pid.PID_Controller(
+            self.position_Kp, self.position_Ki, self.position_Kd
+        )
 
     def set_gains(self, Kp, Ki, Kd):
         """
@@ -68,7 +120,34 @@ class SelfBalanceController:
         self.Kd = Kd
         self.controller.tune(self.Kp, self.Ki, self.Kd)
 
-    def update(self, current):
+    def set_position_gains(self, Kp, Ki, Kd):
+        """
+        Update position PID gains while keeping the controller state.
+        """
+        if (
+            self.position_Kp == Kp
+            and self.position_Ki == Ki
+            and self.position_Kd == Kd
+        ):
+            return
+
+        self.position_Kp = Kp
+        self.position_Ki = Ki
+        self.position_Kd = Kd
+        self.position_controller.tune(
+            self.position_Kp, self.position_Ki, self.position_Kd
+        )
+
+    def update_position(self, current_position):
+        """
+        Convert position error into a pitch setpoint for the balance PID.
+        """
+        pitch_setpoint = self.position_controller.update(
+            POSITION_SETPOINT, current_position
+        )
+        return max(-MAX_PITCH_SETPOINT, min(MAX_PITCH_SETPOINT, pitch_setpoint))
+
+    def update(self, current, pitch_setpoint=PITCH_SETPOINT):
         """
         Run pid update try to keep 0 degree PITCH
         
@@ -77,7 +156,7 @@ class SelfBalanceController:
         """
 
         xvel = -self.controller.update(
-            PITCH_SETPOINT, current
+            pitch_setpoint, current
         )  
 
         return xvel
@@ -106,6 +185,13 @@ def read_pitch(robot):
         p.getBasePositionAndOrientation(robot, id)[ORIENTATION_INDEX]
     )[PITCH_INDEX]
     return data
+
+
+def read_x_position(robot):
+    """
+    Return robot base x position in world coordinates.
+    """
+    return p.getBasePositionAndOrientation(robot, id)[POSITION_INDEX][0]
 
 
 # Main Function
@@ -138,21 +224,54 @@ if __name__ == "__main__":
     p.setJointMotorControl2(robot, right_joint, controlMode=mode, force=maxForce)
     # endregion
     
-    controller = SelfBalanceController(KP, KI, KD)
+    plotjuggler = PlotJugglerUdpClient()
+    controller = SelfBalanceController(
+        KP, KI, KD, POSITION_KP, POSITION_KI, POSITION_KD
+    )
     kp_param_id = p.addUserDebugParameter("Kp", 0, 100, KP, id)
     ki_param_id = p.addUserDebugParameter("Ki", 0, 100, KI, id)
     kd_param_id = p.addUserDebugParameter("Kd", 0, 100, KD, id)
+    position_kp_param_id = p.addUserDebugParameter(
+        "Position Kp", 0, 2, POSITION_KP, id
+    )
+    position_ki_param_id = p.addUserDebugParameter(
+        "Position Ki", 0, 1, POSITION_KI, id
+    )
+    position_kd_param_id = p.addUserDebugParameter(
+        "Position Kd", 0, 5, POSITION_KD, id
+    )
 
     while True:
+        timestamp = time.time()
         Kp = p.readUserDebugParameter(kp_param_id, id)
         Ki = p.readUserDebugParameter(ki_param_id, id)
         Kd = p.readUserDebugParameter(kd_param_id, id)
         controller.set_gains(Kp, Ki, Kd)
+        position_Kp = p.readUserDebugParameter(position_kp_param_id, id)
+        position_Ki = p.readUserDebugParameter(position_ki_param_id, id)
+        position_Kd = p.readUserDebugParameter(position_kd_param_id, id)
+        controller.set_position_gains(position_Kp, position_Ki, position_Kd)
 
+        position = read_x_position(robot)  # get robot position in world frame
+        pitch_setpoint = controller.update_position(position)
         pitch = read_pitch(robot)  # get robot state (pitch angle from IMU)
-        vel = controller.update(pitch)  # calculating torque to be applied on wheels
+        vel = controller.update(
+            pitch, pitch_setpoint
+        )  # calculating torque to be applied on wheels
+        plotjuggler.send(
+            timestamp,
+            POSITION_SETPOINT,
+            position,
+            pitch_setpoint,
+            pitch,
+        )
         p.addUserDebugText(
-            str("Pitch: %.2f" % (pitch * 180 / math.pi)),
+            "Pitch: %.2f | X: %.2f | Pitch setpoint: %.2f"
+            % (
+                pitch * 180 / math.pi,
+                position,
+                pitch_setpoint * 180 / math.pi,
+            ),
             textPosition=[0, 0, 2],
             textColorRGB=[1, 0, 0],
             replaceItemUniqueId=text_id,
