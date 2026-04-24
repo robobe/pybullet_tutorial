@@ -1,15 +1,12 @@
-import json
-import socket
 import time
 import pybullet as p
 import pybullet_data
+from plotjuggler_udp import PlotJugglerUdpClient
 
 KP = 20
 KI = 0
 KD = 0
 TARGET_X = 2.0
-PLOTJUGGLER_HOST = "127.0.0.1"
-PLOTJUGGLER_PORT = 9870
 
 
 class PID:
@@ -63,8 +60,7 @@ kp_param_id = p.addUserDebugParameter("Kp", 0, 100, KP)
 ki_param_id = p.addUserDebugParameter("Ki", 0, 100, KI)
 kd_param_id = p.addUserDebugParameter("Kd", 0, 100, KD)
 
-plotjuggler_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-plotjuggler_address = (PLOTJUGGLER_HOST, PLOTJUGGLER_PORT)
+plotjuggler = PlotJugglerUdpClient()
 
 # --- Simulation loop ---
 while True:
@@ -78,15 +74,7 @@ while True:
     x = pos[0]
 
     force = pid.update(target_x, x)
-    plot_data = {
-        "time": time.time(),
-        "position/setpoint": target_x,
-        "position/feedback": x,
-    }
-    plotjuggler_socket.sendto(
-        json.dumps(plot_data).encode("utf-8"),
-        plotjuggler_address,
-    )
+    plotjuggler.send(target_x, x)
 
     # Apply force along X axis
     p.applyExternalForce(
