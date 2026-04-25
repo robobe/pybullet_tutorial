@@ -25,6 +25,7 @@ class PlotJugglerUdpClient:
         dump_duration=5.0,
         output_dir=".",
         time_base=TimeBase.WALL,
+        extra_fieldnames=None,
     ):
         self.address = (host, port)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -33,6 +34,7 @@ class PlotJugglerUdpClient:
         self.output_dir = output_dir
         self.start_time = time.time()
         self.time_base = time_base
+        self.extra_fieldnames = extra_fieldnames or []
         self.csv_file: Optional[TextIO] = None
         self.csv_writer: Optional[csv.DictWriter] = None
         self.csv_closed = False
@@ -40,7 +42,7 @@ class PlotJugglerUdpClient:
         if self.save:
             self._open_csv()
 
-    def send(self, target, current):
+    def send(self, target, current, extra_data=None):
         now = time.time()
         timestamp = self._get_message_time(now)
         data = {
@@ -48,6 +50,9 @@ class PlotJugglerUdpClient:
             "position/setpoint": target,
             "position/feedback": current,
         }
+        if extra_data:
+            data.update(extra_data)
+
         self.socket.sendto(json.dumps(data).encode("utf-8"), self.address)
 
         if self.save and not self.csv_closed:
@@ -71,7 +76,12 @@ class PlotJugglerUdpClient:
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         csv_path = os.path.join(self.output_dir, f"{CSV_PREFIX}_{timestamp}.csv")
 
-        fieldnames = ["time", "position/setpoint", "position/feedback"]
+        fieldnames = [
+            "time",
+            "position/setpoint",
+            "position/feedback",
+            *self.extra_fieldnames,
+        ]
         self.csv_file = open(csv_path, "w", newline="")
         self.csv_writer = csv.DictWriter(self.csv_file, fieldnames=fieldnames)
         self.csv_writer.writeheader()
