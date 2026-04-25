@@ -2,7 +2,7 @@ import time
 from pathlib import Path
 import pybullet as p
 import pybullet_data
-from plotjuggler_udp import PlotJugglerUdpClient
+from plotjuggler_udp import PlotJugglerUdpClient, TimeBase
 
 
 class PID:
@@ -64,8 +64,8 @@ class PID:
 p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
-dt = 1 / 240
-p.setTimeStep(dt)
+DT = 1 / 240
+p.setTimeStep(DT)
 p.setGravity(0, 0, 0)
 
 p.loadURDF("plane.urdf")
@@ -78,14 +78,16 @@ box = p.loadURDF(
 # Add friction/damping to make it easier to see
 p.changeDynamics(box, -1, linearDamping=0.2)
 
-target_x = 4.0
+TARGET_X = 4.0
+SIMULATION_DURATION = 6.0
+SIMULATION_STEPS = int(SIMULATION_DURATION / DT)
 
 # Try first: anti_windup=False
 pid = PID(
     kp=8.0,
     ki=12.0,
     kd=2.0,
-    dt=dt,
+    dt=DT,
     force_limit=2.0,
     anti_windup=False
 
@@ -94,17 +96,21 @@ pid = PID(
 # Change to True later:
 # pid.anti_windup = True
 
-script_dir = Path(__file__).resolve().parent
-plotjuggler = PlotJugglerUdpClient(save=True, output_dir=script_dir.as_posix())
+SCRIPT_DIR = Path(__file__).resolve().parent.as_posix()
+plotjuggler = PlotJugglerUdpClient(
+    save=True,
+    output_dir=SCRIPT_DIR,
+    time_base=TimeBase.RELATIVE,
+)
 
-while True:
+for _ in range(SIMULATION_STEPS):
     pos, _ = p.getBasePositionAndOrientation(box)
     vel, _ = p.getBaseVelocity(box)
 
     x = pos[0]
 
-    force, raw_force, integral = pid.update(target_x, x)
-    plotjuggler.send(target_x, x)
+    force, raw_force, integral = pid.update(TARGET_X, x)
+    plotjuggler.send(TARGET_X, x)
 
     p.applyExternalForce(
         objectUniqueId=box,
@@ -115,4 +121,7 @@ while True:
     )
 
     p.stepSimulation()
-    time.sleep(dt)
+    time.sleep(DT)
+
+plotjuggler.close_csv()
+p.disconnect()

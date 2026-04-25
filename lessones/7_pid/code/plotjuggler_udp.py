@@ -3,11 +3,17 @@ import json
 import os
 import socket
 import time
+from enum import Enum
 from typing import Optional, TextIO
 
 PLOTJUGGLER_HOST = "127.0.0.1"
 PLOTJUGGLER_PORT = 9870
 CSV_PREFIX = "plotjuggler_data"
+
+
+class TimeBase(Enum):
+    WALL = "wall"
+    RELATIVE = "relative"
 
 
 class PlotJugglerUdpClient:
@@ -18,6 +24,7 @@ class PlotJugglerUdpClient:
         save=False,
         dump_duration=5.0,
         output_dir=".",
+        time_base=TimeBase.WALL,
     ):
         self.address = (host, port)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -25,6 +32,7 @@ class PlotJugglerUdpClient:
         self.dump_duration = dump_duration
         self.output_dir = output_dir
         self.start_time = time.time()
+        self.time_base = time_base
         self.csv_file: Optional[TextIO] = None
         self.csv_writer: Optional[csv.DictWriter] = None
         self.csv_closed = False
@@ -33,7 +41,8 @@ class PlotJugglerUdpClient:
             self._open_csv()
 
     def send(self, target, current):
-        timestamp = time.time()
+        now = time.time()
+        timestamp = self._get_message_time(now)
         data = {
             "time": timestamp,
             "position/setpoint": target,
@@ -48,8 +57,14 @@ class PlotJugglerUdpClient:
             self.csv_writer.writerow(data)
             self.csv_file.flush()
 
-            if timestamp - self.start_time >= self.dump_duration:
+            if now - self.start_time >= self.dump_duration:
                 self.close_csv()
+
+    def _get_message_time(self, now):
+        if self.time_base == TimeBase.RELATIVE:
+            return now - self.start_time
+
+        return now
 
     def _open_csv(self):
         os.makedirs(self.output_dir, exist_ok=True)
